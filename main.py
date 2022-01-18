@@ -1,4 +1,5 @@
 from typing import List
+import argparse
 
 
 def merge(intervals: List[List[int]]) -> List[List[int]]:
@@ -30,5 +31,13 @@ def merge(intervals: List[List[int]]) -> List[List[int]]:
 
 
 if __name__ == "__main__":
-    input_intervals = [[25, 30], [2, 19], [14, 23], [4, 8]]
-    merge(intervals=input_intervals)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i', '--intervals', nargs='+', help='interval input', type=int, action='append')
+    args = parser.parse_args()
+
+    if args.intervals:
+        input_intervals = args.intervals
+    else:
+        input_intervals = [[25, 30], [2, 19], [14, 23], [4, 8]]
+    merged = merge(intervals=input_intervals)
+    print(merged)

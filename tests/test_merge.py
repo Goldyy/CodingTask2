@@ -1,6 +1,11 @@
 import unittest
 from memory_profiler import profile
 
+import os
+import sys
+
+sys.path.append(os.getcwd())
+
 from main import merge
 import datetime
 
@@ -35,18 +40,24 @@ class TestMerge(unittest.TestCase):
         self.assertEqual(merged_intervals, expected)
 
     def test_no_merge_large(self):
-        intervals = [[x, x+2] for x in range(0, 10000000, 4)]
+        intervals = [[x, x + 2] for x in range(0, 1000000, 4)]
         expected = intervals
         merged_intervals = merge(intervals=intervals)
         self.assertEqual(merged_intervals, expected)
 
     @profile
     def test_profile_memory_consumption_small(self):
-        self.test_no_merge()
+        intervals = [[25, 30], [2, 19], [14, 23], [4, 8]]
+        expected = [[2, 23], [25, 30]]
+        merged_intervals = merge(intervals=intervals)
+        self.assertEqual(merged_intervals, expected)
 
     @profile
     def test_profile_memory_consumption_large(self):
-        self.test_no_merge_large()
+        intervals = [[x, x + 2] for x in range(0, 1000000, 4)]
+        expected = intervals
+        merged_intervals = merge(intervals=intervals)
+        self.assertEqual(merged_intervals, expected)
 
 
 if __name__ == '__main__':
